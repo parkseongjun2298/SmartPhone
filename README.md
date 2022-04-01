@@ -31,6 +31,9 @@ HIGH Concept:
 로비씬:
 ![image](https://user-images.githubusercontent.com/70846907/160295350-f171c702-c052-40d1-8b93-1941e4275792.png)
 
+캐릭터선택씬:
+![image](https://user-images.githubusercontent.com/70846907/161212579-aacfc2f5-5985-4e50-b210-e362cf604923.png)
+
 
 
 클리어씬:
