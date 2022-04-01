@@ -8,6 +8,7 @@ HIGH Concept:
 피가 다 닳기 전에 보스를 클리어해 다음으로 넘어가야한다.
 
 ![image](https://user-images.githubusercontent.com/70846907/160294845-8787715b-4e56-44f8-8957-3060d9487a6c.png)
+![image](https://user-images.githubusercontent.com/70846907/161212771-a670c40e-da2c-4cd4-9aaf-927a4d296381.png)
 
 
 개발범위:
