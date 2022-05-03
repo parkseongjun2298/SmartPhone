@@ -32,6 +32,14 @@ HIGH Concept:
 
 클래스소개:
 
+플레이어가 클릭한 위치받아 클릭한 곳으로 이동하는클래스
+![image](https://user-images.githubusercontent.com/70846907/166596706-dd4f6bb9-cbbf-4d08-9bf6-2340dc1dbc80.png)
+
+공격시 나타나는 오브젝트가 x축으로이동하며 화면밖으로나갈시 사라지는클래스
+![image](https://user-images.githubusercontent.com/70846907/166604395-a8d21091-5cba-485f-8128-d4d12e4d09d7.png)
+
+
+
 
 
 기타:
