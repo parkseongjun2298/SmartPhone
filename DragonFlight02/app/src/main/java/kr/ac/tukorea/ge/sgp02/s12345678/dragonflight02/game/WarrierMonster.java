@@ -4,41 +4,36 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
-import kr.ac.tukorea.ge.sgp02.s12345678.dragonflight02.framework.Metrics;
 import kr.ac.tukorea.ge.sgp02.s12345678.dragonflight02.R;
-import kr.ac.tukorea.ge.sgp02.s12345678.dragonflight02.framework.Sprite;
 import kr.ac.tukorea.ge.sgp02.s12345678.dragonflight02.framework.BitmapPool;
+import kr.ac.tukorea.ge.sgp02.s12345678.dragonflight02.framework.GameObject;
+import kr.ac.tukorea.ge.sgp02.s12345678.dragonflight02.framework.Metrics;
+import kr.ac.tukorea.ge.sgp02.s12345678.dragonflight02.framework.Sprite;
 
-public class Fighter extends Sprite {
 
-    private static final String TAG = Fighter.class.getSimpleName();
-    private Bitmap targetBitmap;
-    private RectF targetRect = new RectF();
+
+public class WarrierMonster extends Sprite implements GameObject {
+
+    private static final String TAG = WarrierMonster.class.getSimpleName();
 
     private float dx;
     private float dy;
     private float tx;
     private float ty;
+    private RectF targetRect = new RectF();
 
-    private float elapsedTimeForFire;
-    private float fireInterval;
 
-    public Fighter(float x, float y) {
-        super(x, y, R.dimen.fighter_radius, R.mipmap.r_idle);
+    public WarrierMonster(float x, float y) {
+        super(x, y, R.dimen.fighter_radius, R.mipmap.swordmon_idle);
         setTargetPosition(x, y);
 
-        targetBitmap = BitmapPool.get(R.mipmap.target);
-        fireInterval = Metrics.floatValue(R.dimen.fighter_fire_interval);
+
     }
 
     public void update() {
         float frameTime = MainGame.getInstance().frameTime;
-        elapsedTimeForFire += frameTime;
-        if (elapsedTimeForFire > fireInterval) {
-            fire();
-//            elapsedTimeForFire = 0;
-            elapsedTimeForFire -= fireInterval;
-        }
+
+
 
         if (dx == 0)
             return;
@@ -65,13 +60,10 @@ public class Fighter extends Sprite {
     }
 
     public void draw(Canvas canvas) {
-//        canvas.save();
-//        canvas.rotate((float) (angle * 180 / Math.PI) + 90, x, y);
+
         canvas.drawBitmap(bitmap, null, dstRect, null);
-//        canvas.restore();
-        if (dx != 0) {
-            canvas.drawBitmap(targetBitmap, null, targetRect, null);
-        }
+
+
     }
 
     public void setTargetPosition(float tx, float ty) {
@@ -89,13 +81,9 @@ public class Fighter extends Sprite {
         {
             dy = -dy;
         }
+
+
     }
 
-    public void fire() {
-        int score = MainGame.getInstance().score.get();
-        if (score > 100000) score = 100000;
-        float power = 10 + score / 1000;
-        Fire bullet = new Fire(x,y);
-        MainGame.getInstance().add(MainGame.Layer.bullet, bullet);
-    }
+
 }
