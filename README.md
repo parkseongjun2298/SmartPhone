@@ -29,6 +29,10 @@ HIGH Concept:
 9주:점검 오류수정 마무리작업
 
 깃허브통계:
+총18번
+
+![image](https://user-images.githubusercontent.com/70846907/166605211-b294e009-f9b6-4b8f-8b7a-b555b47df52b.png)
+
 
 클래스소개:
 
