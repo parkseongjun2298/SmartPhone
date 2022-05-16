@@ -21,19 +21,20 @@ public class Fire extends Sprite {
 
     public Fire(float x, float y) {
         super(x, y, R.dimen.fighter_radius, R.mipmap.skill_firedragon00);
-        this.dy = Metrics.size(R.dimen.laser_speed);
+
 
     }
 
     public void update() {
         float frameTime = MainGame.getInstance().frameTime;
-        x+=dy*frameTime;
-
+        float dx = this.dx * frameTime;
+        float dy = this.dy * frameTime;
+        dx+=500*frameTime;
         if (x > Metrics.width || x<0) {
             MainGame.getInstance().remove(this);
             //recycleBin.add(this);
         }
-
+        dstRect.offset(dx, dy);
     }
 
     public void draw(Canvas canvas) {

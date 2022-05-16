@@ -51,6 +51,7 @@ public class Fighter extends Sprite {
         } else {
             x += dx;
         }
+
         float dy = this.dy * frameTime;
         if ((dy > 0 && y+ dy > ty) || (dy < 0 && y + dy < ty)) {
             dy = ty - y;
