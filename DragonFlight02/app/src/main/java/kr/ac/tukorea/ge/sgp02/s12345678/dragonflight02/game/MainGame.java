@@ -40,7 +40,7 @@ public class MainGame {
 //    private ArrayList<GameObject> objects = new ArrayList<>();
     private ArrayList<ArrayList<GameObject>> layers;
     public enum Layer {
-        bg1, bullet, enemy,monster, player, bg2, ui, controller, COUNT
+        bg1, fireball, enemy,monster, player, bg2, ui, controller, COUNT
     }
     private Fighter fighter;
     private WarrierMonster warrierMonster;
@@ -60,13 +60,13 @@ public class MainGame {
         fighter = new Fighter(Metrics.width / 2, fighterY);
         add(Layer.player, fighter);
         warrierMonster=new WarrierMonster(Metrics.width-200,Metrics.height-200);
-        add(Layer.monster,warrierMonster);
+        add(Layer.enemy,warrierMonster);
         score = new Score();
 //        score.set(12345);
         add(Layer.ui, score);
 
         add(Layer.bg1, new VertScrollBackground(R.mipmap.map01, Metrics.size(R.dimen.bg_speed_city)));
-       // add(Layer.bg2, new VertScrollBackground(R.mipmap.clouds, Metrics.size(R.dimen.bg_speed_cloud)));
+
 
         collisionPaint = new Paint();
         collisionPaint.setColor(Color.RED);

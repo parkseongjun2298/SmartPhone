@@ -1,6 +1,8 @@
 package kr.ac.tukorea.ge.sgp02.s12345678.dragonflight02.framework;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -102,5 +104,15 @@ public class GameView extends View implements Choreographer.FrameCallback {
             previousTimeNanos = 0;
             Choreographer.getInstance().postFrameCallback(this);
         }
+    }
+    public Activity getActivity() {
+        Context context = getContext();
+        while (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return (Activity)context;
+            }
+            context = ((ContextWrapper)context).getBaseContext();
+        }
+        return null;
     }
 }

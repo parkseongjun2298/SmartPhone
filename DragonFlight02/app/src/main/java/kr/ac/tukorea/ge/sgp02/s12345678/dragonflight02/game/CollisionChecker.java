@@ -15,21 +15,21 @@ public class CollisionChecker implements GameObject {
     public void update() {
         MainGame game = MainGame.getInstance();
         ArrayList<GameObject> enemies = game.objectsAt(MainGame.Layer.enemy);
-        ArrayList<GameObject> bullets = game.objectsAt(MainGame.Layer.bullet);
+        ArrayList<GameObject> fireballs = game.objectsAt(MainGame.Layer.fireball);
         for (GameObject o1: enemies) {
             if (!(o1 instanceof Enemy)) {
                 continue;
             }
             Enemy enemy = (Enemy) o1;
-            for (GameObject o2: bullets) {
-                if (!(o2 instanceof Bullet)) {
+            for (GameObject o2: fireballs) {
+                if (!(o2 instanceof Fire)) {
                     continue;
                 }
-                Bullet bullet = (Bullet) o2;
-                if (CollisionHelper.collides(enemy, bullet)) {
+                Fire fire = (Fire) o2;
+                if (CollisionHelper.collides(enemy, fire)) {
                     Log.d(TAG, "Collision !!");
-                    game.remove(bullet);
-                    float power = bullet.getPower();
+                    game.remove(fire);
+                    float power = fire.getPower();
                     boolean dead = enemy.decreaseLife(power);
                     if (dead) {
                         game.remove(enemy);
