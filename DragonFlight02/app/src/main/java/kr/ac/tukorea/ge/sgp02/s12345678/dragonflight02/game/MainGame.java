@@ -60,7 +60,7 @@ public class MainGame {
         fighter = new Fighter(Metrics.width / 2, fighterY);
         add(Layer.player, fighter);
         warrierMonster=new WarrierMonster(Metrics.width-200,Metrics.height-200);
-        add(Layer.enemy,warrierMonster);
+        add(Layer.monster,warrierMonster);
         score = new Score();
 //        score.set(12345);
         add(Layer.ui, score);

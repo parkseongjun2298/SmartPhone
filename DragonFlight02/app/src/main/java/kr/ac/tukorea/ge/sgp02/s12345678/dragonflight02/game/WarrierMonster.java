@@ -11,12 +11,14 @@ import kr.ac.tukorea.ge.sgp02.s12345678.dragonflight02.framework.GameObject;
 import kr.ac.tukorea.ge.sgp02.s12345678.dragonflight02.framework.Metrics;
 import kr.ac.tukorea.ge.sgp02.s12345678.dragonflight02.framework.Sprite;
 import kr.ac.tukorea.ge.sgp02.s12345678.dragonflight02.game.Fighter;
-
+//import kr.ac.tukorea.ge.sgp02.s12345678.dragonflight02.framework.SheetSprite;
 
 public class WarrierMonster extends Sprite implements GameObject, BoxCollidable {
 
     private static final String TAG = WarrierMonster.class.getSimpleName();
+    private float life, maxLife;
 
+    protected Gauge gauge;
     private float dx;
     private float dy;
     private float tx;
@@ -24,6 +26,8 @@ public class WarrierMonster extends Sprite implements GameObject, BoxCollidable 
     private RectF targetRect = new RectF();
     protected RectF boundingRect = new RectF();
     protected Fighter player;
+
+
     public WarrierMonster(float x, float y) {
         super(x, y, R.dimen.fighter_radius, R.mipmap.swordmon_idle);
 
@@ -96,6 +100,14 @@ public class WarrierMonster extends Sprite implements GameObject, BoxCollidable 
     @Override
     public RectF getBoundingRect() {
         return boundingRect;
+    }
+
+
+    public boolean decreaseLife(float power) {
+        life -= power;
+        if (life <= 0) return true;
+        gauge.setValue(life / maxLife);
+        return false;
     }
 
 }
