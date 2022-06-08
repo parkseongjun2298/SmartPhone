@@ -21,7 +21,7 @@ public class Fire extends Sprite implements BoxCollidable{
     protected RectF boundingRect = new RectF();
     public Fire(float x, float y) {
         super(x, y, R.dimen.fighter_radius, R.mipmap.skill_firedragon00);
-
+        this.power=10.f;
 
     }
 

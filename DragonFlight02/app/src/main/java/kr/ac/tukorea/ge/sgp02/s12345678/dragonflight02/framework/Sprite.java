@@ -45,4 +45,12 @@ public class Sprite implements GameObject {
         dstRect.set(x - width / 2, y - height / 2, x + width / 2, y + height / 2);
     }
 
+    public float dstWidth() {
+        return dstRect.width();
+    }
+
+    public float dstHeight() {
+        return dstRect.height();
+    }
+
 }

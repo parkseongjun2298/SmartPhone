@@ -30,8 +30,14 @@ public class WarrierMonster extends Sprite implements GameObject, BoxCollidable 
 
     public WarrierMonster(float x, float y) {
         super(x, y, R.dimen.fighter_radius, R.mipmap.swordmon_idle);
-
-
+        this.maxLife=100;
+        this.life=this.maxLife;
+        gauge = new Gauge(
+                Metrics.size(R.dimen.enemy_gauge_width_fg), R.color.enemy_gauge_fg,
+                Metrics.size(R.dimen.enemy_gauge_width_bg), R.color.enemy_gauge_bg,
+                size * 0.9f
+        );
+        gauge.setValue(1.0f);
 
     }
     private static float size, inset;
@@ -75,7 +81,7 @@ public class WarrierMonster extends Sprite implements GameObject, BoxCollidable 
     public void draw(Canvas canvas) {
 
         canvas.drawBitmap(bitmap, null, dstRect, null);
-
+        gauge.draw(canvas, x, y - 100);
 
     }
 

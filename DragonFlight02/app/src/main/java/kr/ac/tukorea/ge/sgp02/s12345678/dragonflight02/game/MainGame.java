@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
@@ -15,7 +16,9 @@ import kr.ac.tukorea.ge.sgp02.s12345678.dragonflight02.framework.GameObject;
 import kr.ac.tukorea.ge.sgp02.s12345678.dragonflight02.framework.GameView;
 import kr.ac.tukorea.ge.sgp02.s12345678.dragonflight02.framework.Recyclable;
 import kr.ac.tukorea.ge.sgp02.s12345678.dragonflight02.framework.RecycleBin;
+import kr.ac.tukorea.ge.sgp02.s12345678.dragonflight02.framework.Button;
 
+import kr.ac.tukorea.ge.sgp02.s12345678.dragonflight02.framework.Touchable;
 public class MainGame {
     private static final String TAG = MainGame.class.getSimpleName();
     private Paint collisionPaint;
@@ -40,14 +43,16 @@ public class MainGame {
 //    private ArrayList<GameObject> objects = new ArrayList<>();
     private ArrayList<ArrayList<GameObject>> layers;
     public enum Layer {
-        bg1, fireball, enemy,monster, player, bg2, ui, controller, COUNT
+        bg1, fireball, enemy,monster, player,touchUi, bg2, ui, controller,COUNT,
     }
     private Fighter fighter;
     private WarrierMonster warrierMonster;
     public static void clear() {
         singleton = null;
     }
-
+    public float size(float unit) {
+        return Metrics.height / 9.5f * unit;
+    }
     public void init() {
 
 //        objects.clear();
@@ -66,6 +71,82 @@ public class MainGame {
         add(Layer.ui, score);
 
         add(Layer.bg1, new VertScrollBackground(R.mipmap.map01, Metrics.size(R.dimen.bg_speed_city)));
+
+
+        float btn_x = size(1.5f);
+        float btn_y = size(8.75f);
+        float btn_w = size(8.0f / 3.0f);
+        float btn_h = size(1.0f);
+
+        add(Layer.touchUi, new Button(
+                Metrics.width - btn_x, btn_y, btn_w, btn_h, R.mipmap.btn_slide_n, R.mipmap.btn_slide_p,
+                new Button.Callback() {
+                    @Override
+                    public boolean onTouch(Button.Action action)
+                    {
+//                if (action != Button.Action.pressed) return falsw1sz2e;
+                        fighter.fire();
+                        Log.d(TAG,"click");
+                        return true;
+                    }
+                }));
+
+
+        add(Layer.touchUi, new Button(
+                Metrics.width - btn_x, btn_y-200, btn_w, btn_h, R.mipmap.btn_slide_n, R.mipmap.btn_slide_p,
+                new Button.Callback() {
+                    @Override
+                    public boolean onTouch(Button.Action action) {
+                     //   if (action != Button.Action.pressed) return false;
+                        fighter.fire();
+                        return true;
+                    }
+                }));
+
+
+        add(Layer.touchUi, new Button(
+                btn_x, btn_y, btn_w, btn_h, R.mipmap.left_btn, R.mipmap.left_btn,
+                new Button.Callback() {
+                    @Override
+                    public boolean onTouch(Button.Action action) {
+                        if (action != Button.Action.pressed) return false;
+                        fighter.left(frameTime);
+                        return true;
+                    }
+                }));
+        add(Layer.touchUi, new Button(
+                btn_x+btn_x+520, btn_y, btn_w, btn_h, R.mipmap.right_btn, R.mipmap.right_btn,
+                new Button.Callback() {
+                    @Override
+                    public boolean onTouch(Button.Action action) {
+                        if (action != Button.Action.pressed) return false;
+                        fighter.right(frameTime);
+                        return true;
+                    }
+                }));
+
+
+        add(Layer.touchUi, new Button(
+                btn_x+btn_x+150, btn_y-200, btn_w, btn_h, R.mipmap.up_btn, R.mipmap.up_btn,
+                new Button.Callback() {
+                    @Override
+                    public boolean onTouch(Button.Action action) {
+                        if (action != Button.Action.pressed) return false;
+                        fighter.up(frameTime);
+                        return true;
+                    }
+                }));
+
+        add(Layer.touchUi, new Button(
+                btn_x+btn_x+150, btn_y, btn_w, btn_h, R.mipmap.down_btn, R.mipmap.down_btn,
+                new Button.Callback() {
+                    @Override
+                    public boolean onTouch(Button.Action action) {
+                        if (action != Button.Action.pressed) return false;
+                        fighter.down(frameTime);
+                        return true;
+                    }
+                }));
 
 
         collisionPaint = new Paint();
@@ -111,16 +192,20 @@ public class MainGame {
     }
 
     public boolean onTouchEvent(MotionEvent event) {
-        int action = event.getAction();
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_MOVE:
-                int x = (int) event.getX();
-                int y = (int) event.getY();
-                fighter.setTargetPosition(x, y);
-                return true;
+        int touchLayer = getTouchLayerIndex();
+        if (touchLayer < 0) return false;
+        ArrayList<GameObject> gameObjects = layers.get(touchLayer);
+        for (GameObject gobj : gameObjects) {
+            if (!(gobj instanceof Touchable)) {
+                continue;
+            }
+            boolean processed = ((Touchable) gobj).onTouchEvent(event);
+            if (processed) return true;
         }
         return false;
+    }
+    protected int getTouchLayerIndex() {
+        return -1;
     }
 
     public void add(Layer layer, GameObject gameObject) {
