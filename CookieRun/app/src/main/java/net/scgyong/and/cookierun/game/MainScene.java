@@ -15,6 +15,7 @@ public class MainScene extends Scene {
     private static final String TAG = MainScene.class.getSimpleName();
     private Player player;
     private WarrierMonster warrierMonster;
+    private MageMonster mageMonster;
     private static MainScene singleton;
     public static MainScene get() {
         if (singleton == null) {
@@ -45,12 +46,16 @@ public class MainScene extends Scene {
 //                size(2), size(7),
 //                size(2), size(2),
 //                R.mipmap.cookie);
-        player = new Player(100,600);
+        player = new Player(100,1000);
         add(Layer.player.ordinal(), player);
 
         warrierMonster = new WarrierMonster(2000,1000);
         add(Layer.monster.ordinal(), warrierMonster);
+        add(Layer.controller.ordinal(), new CollisionChecker(warrierMonster));
 
+        mageMonster = new MageMonster(2000,500);
+        add(Layer.monster.ordinal(), mageMonster);
+        add(Layer.controller.ordinal(), new CollisionChecker2(mageMonster));
         add(Layer.bg.ordinal(), new HorzScrollBackground(R.mipmap.cookie_run_bg_1, Metrics.size(R.dimen.bg_scroll_1)));
         add(Layer.bg.ordinal(), new HorzScrollBackground(R.mipmap.cookie_run_bg_2, Metrics.size(R.dimen.bg_scroll_2)));
         add(Layer.bg.ordinal(), new HorzScrollBackground(R.mipmap.cookie_run_bg_3, Metrics.size(R.dimen.bg_scroll_3)));
@@ -58,7 +63,7 @@ public class MainScene extends Scene {
 //        MapLoader mapLoader = MapLoader.get();
 //        mapLoader.init(mapIndex);
 //        add(Layer.controller.ordinal(), mapLoader);
-        add(Layer.controller.ordinal(), new CollisionChecker(warrierMonster));
+
 
         float btn_x = size(1.5f);
         float btn_y = size(8.75f);
@@ -70,7 +75,7 @@ public class MainScene extends Scene {
                 new Button.Callback() {
             @Override
             public boolean onTouch(Button.Action action) {
-//                if (action != Button.Action.pressed) return false;
+                if (action != Button.Action.pressed) return false;
                 player.slide(action == Button.Action.pressed);
                 return true;
             }
@@ -95,9 +100,15 @@ public class MainScene extends Scene {
                 new Button.Callback() {
                     @Override
                     public boolean onTouch(Button.Action action) {
-                        if (action != Button.Action.pressed) return false;
-                        player.left(frameTime);
-                        return true;
+                        if (action == Button.Action.pressed) {
+                            player.left(frameTime);
+                            return true;
+                        }
+                        if (action == Button.Action.released) {
+
+                            return true;
+                        }
+                        else return  false;
                     }
                 }));
         add(Layer.touchUi.ordinal(), new Button(
@@ -105,9 +116,15 @@ public class MainScene extends Scene {
                 new Button.Callback() {
                     @Override
                     public boolean onTouch(Button.Action action) {
-                        if (action != Button.Action.pressed) return false;
-                        player.right(frameTime);
-                        return true;
+                        if (action == Button.Action.pressed) {
+                            player.right(frameTime);
+                            return true;
+                        }
+                        if (action == Button.Action.released) {
+
+                            return true;
+                        }
+                        else return  false;
                     }
                 }));
 
@@ -117,9 +134,15 @@ public class MainScene extends Scene {
                 new Button.Callback() {
                     @Override
                     public boolean onTouch(Button.Action action) {
-                        if (action != Button.Action.pressed) return false;
-                        player.up(frameTime);
-                        return true;
+                        if (action == Button.Action.pressed) {
+                            player.up(frameTime);
+                            return true;
+                        }
+                        if (action == Button.Action.released) {
+
+                            return true;
+                        }
+                        else return  false;
                     }
                 }));
 
@@ -128,9 +151,15 @@ public class MainScene extends Scene {
                 new Button.Callback() {
                     @Override
                     public boolean onTouch(Button.Action action) {
-                        if (action != Button.Action.pressed) return false;
-                        player.down(frameTime);
-                        return true;
+                        if (action == Button.Action.pressed) {
+                            player.down(frameTime);
+                            return true;
+                        }
+                        if (action == Button.Action.released) {
+
+                            return true;
+                        }
+                        else return  false;
                     }
                 }));
 

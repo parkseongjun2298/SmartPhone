@@ -12,15 +12,24 @@ import java.util.ArrayList;
 
 public class CollisionChecker implements GameObject {
     private static final String TAG = CollisionChecker.class.getSimpleName();
-    private final WarrierMonster warrierMonster;
+    private  WarrierMonster warrierMonster;
 
 
     public CollisionChecker(WarrierMonster warrierMonster) {
         this.warrierMonster = warrierMonster;
     }
 
+    private  MageMonster mageMonster;
 
-    //플레이어 아이탬 충돌
+
+    public CollisionChecker(MageMonster mageMonster) {
+        this.mageMonster = mageMonster;
+    }
+
+
+
+
+
     //몬스터   파이어
     @Override
     public void update(float frameTime) {
@@ -31,16 +40,33 @@ public class CollisionChecker implements GameObject {
             if (!(fire instanceof BoxCollidable)) {
                 continue;
             }
-            if (CollisionHelper.collides(warrierMonster, (BoxCollidable) fire)) {
-                //Log.d(TAG, "Collision: " + item);
-                if (fire instanceof Fire) {
-                    Fire jelly = (Fire) fire;
 
+            if (CollisionHelper.collides(warrierMonster, (BoxCollidable) fire)) {
+
+                boolean dead = warrierMonster.decreaseLife(10.f);
                    // Sound.playEffect(jelly.soundId());
+                if (dead) {
+                    game.remove(warrierMonster);
 
                 }
+
+
                 game.remove(fire);
             }
+
+//            if (CollisionHelper.collides(mageMonster, (BoxCollidable) fire)) {
+//
+//                boolean dead = mageMonster.decreaseLife(10.f);
+//                // Sound.playEffect(jelly.soundId());
+//                if (dead) {
+//                    game.remove(mageMonster);
+//
+//                }
+//
+//
+//                game.remove(fire);
+//            }
+
         }
     }
 

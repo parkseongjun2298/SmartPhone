@@ -21,7 +21,7 @@ import android.content.res.AssetManager;
         import java.util.ArrayList;
 
 public class WarrierMonster extends SheetSprite implements BoxCollidable {
-
+    protected float life, maxLife;
     private static final float FRAMES_PER_SECOND = 8f;
     private static final String TAG = Player.class.getSimpleName();
     private float dx;
@@ -95,7 +95,8 @@ public class WarrierMonster extends SheetSprite implements BoxCollidable {
         jumpPower = Metrics.size(R.dimen.player_jump_power);
         gravity = Metrics.size(R.dimen.player_gravity);
         setState(State.run);
-
+        maxLife = 100;
+        life = maxLife;
 
     }
 
@@ -112,7 +113,7 @@ public class WarrierMonster extends SheetSprite implements BoxCollidable {
             e.printStackTrace();
         }
         float bottom = dstRect.bottom;
-        float size = MainScene.get().size(info.size * 3.85f / 270);
+        float size = MainScene.get().size(info.size * 3.85f / 200);
         dstRect.set(x - size / 2, bottom - size, x + size / 2, bottom);
     }
 
@@ -129,7 +130,7 @@ public class WarrierMonster extends SheetSprite implements BoxCollidable {
         cookieInfos = new ArrayList<>();
         AssetManager assets = GameView.view.getContext().getAssets();
         try {
-            InputStream is = assets.open("cookies.json");
+            InputStream is = assets.open("monster.json");
             JsonReader reader = new JsonReader(new InputStreamReader(is, "UTF-8"));
             reader.beginArray();
             while (reader.hasNext()) {
@@ -247,13 +248,15 @@ public class WarrierMonster extends SheetSprite implements BoxCollidable {
             return;
         }
     }
-    public void fire() {
 
-        float power = 10 ;
-        Fire bullet = new Fire(x,y,power);
-        MainScene.get().add(MainScene.Layer.fire.ordinal(),bullet);
+    public boolean decreaseLife(float power) {
+        life -= power;
+        if (life <= 0) return true;
 
+        //gauge.setValue((float)life / maxLife);
+        return false;
     }
+
 
 
     private void setState(State state) {
@@ -262,4 +265,7 @@ public class WarrierMonster extends SheetSprite implements BoxCollidable {
         collisionBox.set(dstRect);
         state.applyInsets(collisionBox);
     }
+
+
+
 }

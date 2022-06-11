@@ -105,7 +105,7 @@ public class Player extends SheetSprite implements BoxCollidable {
         State.initRects(info);
         AssetManager assets = GameView.view.getContext().getAssets();
         try {
-            String filename = "cookies/" + info.id + "_sheet.bmp";
+            String filename = "cookies/" + info.id + "_sheet.png";
             InputStream is = assets.open(filename);
             bitmap = BitmapFactory.decodeStream(is);
         } catch (IOException e) {
@@ -167,7 +167,28 @@ public class Player extends SheetSprite implements BoxCollidable {
 
     @Override
     public void update(float frameTime) {
+        float foot = collisionBox.bottom;
+        switch (state) {
 
+//            case run:
+//                if(moveState == MoveState.stop)
+//                {
+//                    isCheck = false;
+//
+//                }
+//                else if(moveState == MoveState.left)
+//                {
+//                    MoveLeft();
+//                    isCheck = false;
+//                }
+//                else if(moveState == MoveState.right)
+//                {
+//                    MoveRight();
+//                }
+
+
+                //break;
+        }
 
 
     }
