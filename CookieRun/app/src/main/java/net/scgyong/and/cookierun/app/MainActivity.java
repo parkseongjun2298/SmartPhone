@@ -15,9 +15,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra(MainScene.PARAM_STAGE_INDEX, 1);
-        startActivity(intent);
+
     }
 
     public void onBtnFirst(View view) {

@@ -166,15 +166,23 @@ public class WarrierMonster extends SheetSprite implements BoxCollidable {
         return collisionBox;
     }
 
+
+
     @Override
     public void update(float frameTime) {
-        float foot = collisionBox.bottom;
-        switch (state) {
+        Player p=MainScene.get().GetPlayer();
+        double dX = x - p.Get_Player_PosX(); // x좌표의 변화량
+        double dY = y - p.Get_Player_PosY(); // y좌표의 변화량
+        double distance=Math.sqrt(dX*dX+dY*dY);
 
-            case run:
-            case slide:
+        x-=1.f*frameTime;
 
-                break;
+        if(distance<700.f) {
+        //추격하는알고
+
+
+            att();
+
         }
     }
 
@@ -208,6 +216,13 @@ public class WarrierMonster extends SheetSprite implements BoxCollidable {
         return nearest;
     }
 
+    public void att() {
+
+        float power = 5 ;
+        MonAtt bullet = new MonAtt(x-50,y-250,power);
+        MainScene.get().add(MainScene.Layer.monatt.ordinal(),bullet);
+
+    }
 
     public void left(float frameTime) {
 

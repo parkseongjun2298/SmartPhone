@@ -28,11 +28,14 @@ public class Player extends SheetSprite implements BoxCollidable {
     private float dy;
 
     public void changeBitmap() {
-//        int nextIndex = (cookieIndex + 1) % cookieInfos.size();
-//        selectCookie(nextIndex);
-//        setState(state);
+        int nextIndex = (cookieIndex + 1) % cookieInfos.size();
+        selectCookie(nextIndex);
+        setState(state);
     }
-
+    public  enum MoveState{
+        left,right, stop, up,down, shot;
+    }
+    public MoveState moveState;
     private enum State {
         run, idle,att,slide, COUNT;
         Rect[] srcRects() {
@@ -95,9 +98,18 @@ public class Player extends SheetSprite implements BoxCollidable {
         jumpPower = Metrics.size(R.dimen.player_jump_power);
         gravity = Metrics.size(R.dimen.player_gravity);
         setState(State.run);
-
+        moveState = MoveState.stop;
 
     }
+    public float Get_Player_PosX()
+    {
+        return x;
+    }
+    public float Get_Player_PosY()
+    {
+        return y;
+    }
+
 
     private void selectCookie(int cookieIndex) {
         this.cookieIndex = cookieIndex;
@@ -165,29 +177,47 @@ public class Player extends SheetSprite implements BoxCollidable {
         return collisionBox;
     }
 
+
+    public boolean isCheck = false;
+    public boolean isCheck2 = false;
     @Override
     public void update(float frameTime) {
         float foot = collisionBox.bottom;
+        MainScene game = MainScene.get();
+
+        if(x>400.f) {
+            game.SetStage();
+        }
+
         switch (state) {
 
-//            case run:
-//                if(moveState == MoveState.stop)
-//                {
-//                    isCheck = false;
-//
-//                }
-//                else if(moveState == MoveState.left)
-//                {
-//                    MoveLeft();
-//                    isCheck = false;
-//                }
-//                else if(moveState == MoveState.right)
-//                {
-//                    MoveRight();
-//                }
+            case run:
+                if(moveState == MoveState.stop)
+                {
+                    isCheck = false;
+                    isCheck2=false;
+                }
+                else if(moveState == MoveState.left)
+                {
+                    left(frameTime);
+                    isCheck = false;
+                }
+                else if(moveState == MoveState.right)
+                {
+                    right(frameTime);
+                }
+                else if(moveState == MoveState.up)
+                {
+                    up(frameTime);
+                    isCheck2 = false;
+                }
+                else if(moveState == MoveState.down)
+                {
+                    down(frameTime);
+                }
 
 
-                //break;
+                break;
         }
 
 
@@ -226,25 +256,27 @@ public class Player extends SheetSprite implements BoxCollidable {
 
     public void left(float frameTime) {
 
-        float dx=-this.x*frameTime*10;
+        float dx=-this.x*frameTime;
 
 
         x+=dx;
         dstRect.offset(dx, 0);
         collisionBox.offset(dx, dy);
+        dx=0;
     }
     public void right(float frameTime) {
 
-        float dx=this.x*frameTime*10;
+        float dx=this.x*frameTime;
 
         x+=dx;
         dstRect.offset(dx, 0);
         collisionBox.offset(dx, dy);
+        dx=0;
 
     }
     public void up(float frameTime) {
 
-        float dy=-this.y*frameTime*5;
+        float dy=-this.y*frameTime;
 
         y+=dy;
         dstRect.offset(0, dy);
@@ -253,7 +285,7 @@ public class Player extends SheetSprite implements BoxCollidable {
     }
     public void down(float frameTime) {
 
-        float  dy=this.y*frameTime*5;
+        float  dy=this.y*frameTime;
 
 
         y+=dy;
@@ -279,7 +311,26 @@ public class Player extends SheetSprite implements BoxCollidable {
         MainScene.get().add(MainScene.Layer.fire.ordinal(),bullet);
 
     }
+    public void att(boolean startsSlide) {
 
+        float power = 5 ;
+        PlayerAtt bullet = new PlayerAtt(x+50,y-250,power);
+        MainScene.get().add(MainScene.Layer.fire.ordinal(),bullet);
+
+    }
+    public void ChangeMoveState(int state)
+    {
+        if(state == 0)
+            moveState = MoveState.stop;
+        if(state == 1)
+            moveState = MoveState.left;
+        if(state == 2)
+            moveState = MoveState.right;
+        if(state == 3)
+            moveState = MoveState.up;
+        if(state == 4)
+            moveState = MoveState.down;
+    }
 
 
 

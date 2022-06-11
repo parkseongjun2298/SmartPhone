@@ -169,14 +169,27 @@ public class MageMonster extends SheetSprite implements BoxCollidable {
 
     @Override
     public void update(float frameTime) {
-        float foot = collisionBox.bottom;
-        switch (state) {
+        Player p=MainScene.get().GetPlayer();
+        double dX = x - p.Get_Player_PosX(); // x좌표의 변화량
+        double dY = y - p.Get_Player_PosY(); // y좌표의 변화량
+        double distance=Math.sqrt(dX*dX+dY*dY);
 
-            case run:
-            case slide:
 
-                break;
+
+        if(distance<900.f) {
+            //추격하는알고
+
+
+            att();
+
         }
+    }
+    public void att() {
+
+        float power = 5 ;
+        Arrow bullet = new Arrow(x-100,y-250,power);
+        MainScene.get().add(MainScene.Layer.monatt.ordinal(),bullet);
+
     }
 
     private float findNearestPlatformTop(float foot) {

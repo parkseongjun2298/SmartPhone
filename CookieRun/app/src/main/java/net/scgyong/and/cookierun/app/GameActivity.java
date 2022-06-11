@@ -21,9 +21,19 @@ public class GameActivity extends AppCompatActivity {
         setContentView(new GameView(this, null));
 
         MainScene game = MainScene.get();
-        game.setMapIndex(stageIndex);
+        //game.setMapIndex(stageIndex);
         Scene.push(game);
 //        Scene.push(PausedScene.get());
+
+        if(game.nextstage==true)
+        {
+            Scene.popScene();
+            MainScene game2 = MainScene.get();
+            //game.setMapIndex(stageIndex);
+            Scene.push(game2);
+
+        }
+
     }
 
     @Override
