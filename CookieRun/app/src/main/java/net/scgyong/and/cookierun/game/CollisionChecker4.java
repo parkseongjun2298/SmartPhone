@@ -11,15 +11,15 @@ import net.scgyong.and.cookierun.framework.util.CollisionHelper;
 
 import java.util.ArrayList;
 
-public class CollisionChecker2 implements GameObject {
+public class CollisionChecker4 implements GameObject {
     private static final String TAG = CollisionChecker.class.getSimpleName();
 
 
-    private  MageMonster mageMonster;
+    private  Player player;
 
 
-    public CollisionChecker2(MageMonster mageMonster) {
-        this.mageMonster = mageMonster;
+    public CollisionChecker4(Player player) {
+        this.player = player;
     }
 
 
@@ -31,7 +31,7 @@ public class CollisionChecker2 implements GameObject {
     public void update(float frameTime) {
         MainScene game = MainScene.get();
 
-        ArrayList<GameObject> fires = game.objectsAt(MainScene.Layer.fire.ordinal());
+        ArrayList<GameObject> fires = game.objectsAt(MainScene.Layer.monatt.ordinal());
         for (GameObject fire: fires) {
             if (!(fire instanceof BoxCollidable)) {
                 continue;
@@ -39,16 +39,11 @@ public class CollisionChecker2 implements GameObject {
 
 
 
-            if (CollisionHelper.collides(mageMonster, (BoxCollidable) fire)) {
+            if (CollisionHelper.collides(player, (BoxCollidable) fire)) {
 
-                boolean dead = mageMonster.decreaseLife(10.f);
-                Sound.playEffect(R.raw.jelly_coin);
-                if (dead) {
-                    Player p=MainScene.get().GetPlayer();
-                    p.kill+=1;
-                    game.remove(mageMonster);
 
-                }
+                Sound.playEffect(R.raw.jelly_alphabet);
+
 
 
                 game.remove(fire);

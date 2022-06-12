@@ -86,7 +86,7 @@ public class Scene {
         if (BuildConfig.showsCollisionBox) {
             collisionPaint = new Paint();
             collisionPaint.setStyle(Paint.Style.STROKE);
-            collisionPaint.setColor(Color.RED);
+            collisionPaint.setColor(Color.alpha(255));
         }
 
         elapsedTime = 0;

@@ -80,7 +80,6 @@ public class MainScene extends Scene {
         float marginRight = Metrics.size(R.dimen.score_margin_right);
         float charWidth = Metrics.size(R.dimen.score_digit_width);
         playerUi = new PlayerUi(mipmapResId, marginTop, marginRight, charWidth);
-//        score.set(123456);
         add(Layer.ui.ordinal(), playerUi);
 
 

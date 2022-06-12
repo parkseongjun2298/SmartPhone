@@ -47,7 +47,7 @@ public class Arrow extends Sprite implements BoxCollidable{
         MainScene game = MainScene.get();
         float dx = this.x * frameTime;
 
-        dx-=50;
+        dx-=20;
         if (x > Metrics.width || x<0) {
 
             game.remove(this);

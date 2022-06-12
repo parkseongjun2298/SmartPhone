@@ -1,5 +1,7 @@
-
 package net.scgyong.and.cookierun.game;
+
+
+
 
 import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
@@ -15,7 +17,7 @@ import net.scgyong.and.cookierun.framework.interfaces.BoxCollidable;
 
 import net.scgyong.and.cookierun.framework.view.GameView;
 
-public class MonAtt extends Sprite implements BoxCollidable {
+public class BossSkill3 extends Sprite implements BoxCollidable {
 
     private static final String TAG = WarrierMonster.class.getSimpleName();
     protected float x, y;
@@ -26,8 +28,8 @@ public class MonAtt extends Sprite implements BoxCollidable {
     private float ty;
     private float power;
     protected RectF boundingRect = new RectF();
-    public MonAtt(float x, float y,float power) {
-        super(x, y, R.dimen.fire_speed, R.mipmap.monattack);
+    public BossSkill3(float x, float y,float power) {
+        super(x, y, R.dimen.fire_speed, R.mipmap.bossskill3);
         this.power=power;
         this.x=x;
         this.y=y;
@@ -36,27 +38,31 @@ public class MonAtt extends Sprite implements BoxCollidable {
 
     private static float size, inset;
     public static void setSize(float size) {
-        MonAtt.size = size;
-        MonAtt.inset = size / 16;
+        BossSkill3.size = size;
+        BossSkill3.inset = size / 16;
     }
 
 
 
 
-   public float createtime=0.f;
+    public float createtime=0.f;
     public void update(float frameTime) {
         MainScene game = MainScene.get();
 
         createtime+=1;
 
 
-        if (createtime>=10) {
+        if (createtime>=50) {
 
             game.remove(this);
             //recycleBin.add(this);
         }
+        float dx = this.x * frameTime;
 
+        dx-=5;
+        float dy = this.y * frameTime;
 
+        dy+=5;
 
         //  setDstRectWithRadius();
         boundingRect.set(dstRect);

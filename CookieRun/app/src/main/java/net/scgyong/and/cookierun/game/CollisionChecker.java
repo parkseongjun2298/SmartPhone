@@ -3,6 +3,7 @@ package net.scgyong.and.cookierun.game;
 import android.graphics.Canvas;
 import android.util.Log;
 
+import net.scgyong.and.cookierun.R;
 import net.scgyong.and.cookierun.framework.interfaces.BoxCollidable;
 import net.scgyong.and.cookierun.framework.interfaces.GameObject;
 import net.scgyong.and.cookierun.framework.res.Sound;
@@ -44,7 +45,7 @@ public class CollisionChecker implements GameObject {
             if (CollisionHelper.collides(warrierMonster, (BoxCollidable) fire)) {
 
                 boolean dead = warrierMonster.decreaseLife(10.f);
-                   // Sound.playEffect(jelly.soundId());
+                    Sound.playEffect(R.raw.jelly_coin);
                 if (dead) {
 
                     Player p=MainScene.get().GetPlayer();

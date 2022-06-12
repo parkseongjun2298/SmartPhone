@@ -8,8 +8,10 @@ import android.graphics.RectF;
 import android.util.JsonReader;
 
 import net.scgyong.and.cookierun.R;
+import net.scgyong.and.cookierun.framework.game.Scene;
 import net.scgyong.and.cookierun.framework.interfaces.BoxCollidable;
 import net.scgyong.and.cookierun.framework.interfaces.GameObject;
+import net.scgyong.and.cookierun.framework.objects.Button;
 import net.scgyong.and.cookierun.framework.objects.SheetSprite;
 import net.scgyong.and.cookierun.framework.res.BitmapPool;
 import net.scgyong.and.cookierun.framework.res.Metrics;
@@ -171,7 +173,9 @@ public class Player extends SheetSprite implements BoxCollidable {
             e.printStackTrace();
         }
     }
-
+    public float size(float unit) {
+        return Metrics.height / 9.5f * unit;
+    }
     @Override
     public RectF getBoundingRect() {
         return collisionBox;
@@ -183,6 +187,7 @@ public class Player extends SheetSprite implements BoxCollidable {
     public boolean isCheck2 = false;
     boolean moncreatecheck=false;
     boolean moncreatecheck2=false;
+    float fin=0;
     @Override
     public void update(float frameTime) {
         float foot = collisionBox.bottom;
@@ -201,6 +206,25 @@ public class Player extends SheetSprite implements BoxCollidable {
             game.add(MainScene.Layer.monster.ordinal(), boss);
             game.add(MainScene.Layer.controller.ordinal(), new CollisionChecker3(boss));
             moncreatecheck2=true;
+        }
+        if(this.fin==1)
+        {
+            float btn_x = size(1.5f);
+            float btn_y = size(8.75f);
+            float btn_w = size(8.0f / 3.0f);
+            float btn_h = size(1.0f);
+
+            game.add(MainScene.Layer.touchUi.ordinal(), new Button(
+                    Metrics.width/2, Metrics.height/2, btn_w, btn_h, R.mipmap.gameclear, R.mipmap.gameclear,
+                    new Button.Callback() {
+                        @Override
+                        public boolean onTouch(Button.Action action) {
+                            if (action != Button.Action.pressed) return false;
+                            Scene.clear();
+                            return true;
+                        }
+                    }));
+
         }
 
 
@@ -236,6 +260,9 @@ public class Player extends SheetSprite implements BoxCollidable {
 
                 break;
         }
+
+
+
 
 
     }

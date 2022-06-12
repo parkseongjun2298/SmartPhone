@@ -197,7 +197,7 @@ public class MageMonster extends SheetSprite implements BoxCollidable {
         if(attcheck)
         {
             count++;
-            if(count>=40)
+            if(count>=80)
             {
                 attcheck=false;
                 count=0;
@@ -221,10 +221,12 @@ public class MageMonster extends SheetSprite implements BoxCollidable {
 
     }
     public void att() {
-
+        Player p=MainScene.get().GetPlayer();
         float power = 5 ;
         Arrow bullet = new Arrow(x-100,y-250,power);
         MainScene.get().add(MainScene.Layer.monatt.ordinal(),bullet);
+        MainScene.get().add(MainScene.Layer.controller.ordinal(), new CollisionChecker4(p));
+
 
     }
 

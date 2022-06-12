@@ -233,10 +233,12 @@ public class Boss extends SheetSprite implements BoxCollidable {
 
     public void att() {
 
+        Player p=MainScene.get().GetPlayer();
         float power = 5 ;
         for(int i=0;i<4;++i) {
             Shadow bullet = new Shadow(0+600*i, 1000, power);
             MainScene.get().add(MainScene.Layer.monatt.ordinal(), bullet);
+            MainScene.get().add(MainScene.Layer.controller.ordinal(), new CollisionChecker4(p));
         }
     }
     public void att2() {
@@ -244,17 +246,18 @@ public class Boss extends SheetSprite implements BoxCollidable {
         float power = 5 ;
         for(int j=0;j<4;++j) {
             for (int i = 0; i < 4; ++i) {
-                BossSkill2 bullet = new BossSkill2(300 + 600 * i, 1000-j*200, power);
+                BossSkill2 bullet = new BossSkill2(200+i*200, 200+j*200, power);
                 MainScene.get().add(MainScene.Layer.monatt.ordinal(), bullet);
             }
         }
     }
     public void att3() {
-
+        Player p=MainScene.get().GetPlayer();
         float power = 5 ;
-        for(int i=0;i<4;++i) {
-            Shadow bullet = new Shadow(0+600*i, 1000, power);
+        for(int i=-4;i<5;++i) {
+            BossSkill3 bullet = new BossSkill3(x-300*i, y+i*100, power);
             MainScene.get().add(MainScene.Layer.monatt.ordinal(), bullet);
+            MainScene.get().add(MainScene.Layer.controller.ordinal(), new CollisionChecker4(p));
         }
 
         skill1=false;

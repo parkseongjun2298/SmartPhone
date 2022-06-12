@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.JsonReader;
-
+import net.scgyong.and.cookierun.framework.res.Sound;
 import net.scgyong.and.cookierun.R;
 import net.scgyong.and.cookierun.framework.res.BitmapPool;
 import net.scgyong.and.cookierun.framework.res.Metrics;
@@ -46,8 +46,8 @@ public class Fire extends Sprite implements BoxCollidable{
     public void update(float frameTime) {
         MainScene game = MainScene.get();
         float dx = this.x * frameTime;
-
-        dx+=50;
+        // Sound.playEffect(R.raw.jelly_item);
+        dx+=20;
         if (x > Metrics.width || x<0) {
 
             game.remove(this);

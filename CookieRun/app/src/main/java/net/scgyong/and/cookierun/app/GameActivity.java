@@ -25,14 +25,7 @@ public class GameActivity extends AppCompatActivity {
         Scene.push(game);
 //        Scene.push(PausedScene.get());
 
-        if(game.nextstage==true)
-        {
-            Scene.popScene();
-            MainScene game2 = MainScene.get();
-            //game.setMapIndex(stageIndex);
-            Scene.push(game2);
 
-        }
 
     }
 
