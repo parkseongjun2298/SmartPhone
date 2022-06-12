@@ -30,6 +30,8 @@ HIGH Concept:
 
 깃허브통계:
 
+![image](https://user-images.githubusercontent.com/70846907/173249112-23dd4b0a-a80e-49c4-ac4b-18f93336c22e.png)
+
 
 
 - 사용된 기술
