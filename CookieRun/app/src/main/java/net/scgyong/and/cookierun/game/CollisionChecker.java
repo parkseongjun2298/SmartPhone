@@ -46,7 +46,11 @@ public class CollisionChecker implements GameObject {
                 boolean dead = warrierMonster.decreaseLife(10.f);
                    // Sound.playEffect(jelly.soundId());
                 if (dead) {
+
+                    Player p=MainScene.get().GetPlayer();
+                    p.kill+=1;
                     game.remove(warrierMonster);
+
 
                 }
 

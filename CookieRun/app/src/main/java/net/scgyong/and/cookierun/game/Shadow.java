@@ -1,3 +1,4 @@
+
 package net.scgyong.and.cookierun.game;
 
 import android.content.res.AssetManager;
@@ -14,7 +15,7 @@ import net.scgyong.and.cookierun.framework.interfaces.BoxCollidable;
 
 import net.scgyong.and.cookierun.framework.view.GameView;
 
-public class Arrow extends Sprite implements BoxCollidable{
+public class Shadow extends Sprite implements BoxCollidable {
 
     private static final String TAG = WarrierMonster.class.getSimpleName();
     protected float x, y;
@@ -25,8 +26,8 @@ public class Arrow extends Sprite implements BoxCollidable{
     private float ty;
     private float power;
     protected RectF boundingRect = new RectF();
-    public Arrow(float x, float y,float power) {
-        super(x, y, R.dimen.fire_speed, R.mipmap.arrow);
+    public Shadow(float x, float y,float power) {
+        super(x, y, R.dimen.fire_speed, R.mipmap.shadow);
         this.power=power;
         this.x=x;
         this.y=y;
@@ -35,22 +36,28 @@ public class Arrow extends Sprite implements BoxCollidable{
 
     private static float size, inset;
     public static void setSize(float size) {
-        Arrow.size = size;
-        Arrow.inset = size / 16;
+        Shadow.size = size;
+        Shadow.inset = size / 16;
     }
 
 
 
 
-
+    public float createtime=0.f;
     public void update(float frameTime) {
         MainScene game = MainScene.get();
-        float dx = this.x * frameTime;
 
-        dx-=50;
-        if (x > Metrics.width || x<0) {
+        createtime+=1;
 
+
+        if (createtime>=100) {
+            float power = 5 ;
+            BossSkill1 bullet = new BossSkill1(x,y-750,power);
+            MainScene.get().add(MainScene.Layer.monatt.ordinal(),bullet);
             game.remove(this);
+
+
+
             //recycleBin.add(this);
         }
 

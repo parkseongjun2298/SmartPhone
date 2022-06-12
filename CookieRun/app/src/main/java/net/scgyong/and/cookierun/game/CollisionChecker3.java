@@ -10,15 +10,15 @@ import net.scgyong.and.cookierun.framework.util.CollisionHelper;
 
 import java.util.ArrayList;
 
-public class CollisionChecker2 implements GameObject {
+public class CollisionChecker3 implements GameObject {
     private static final String TAG = CollisionChecker.class.getSimpleName();
 
 
-    private  MageMonster mageMonster;
+    private  Boss boss;
 
 
-    public CollisionChecker2(MageMonster mageMonster) {
-        this.mageMonster = mageMonster;
+    public CollisionChecker3(Boss boss) {
+        this.boss = boss;
     }
 
 
@@ -38,14 +38,12 @@ public class CollisionChecker2 implements GameObject {
 
 
 
-            if (CollisionHelper.collides(mageMonster, (BoxCollidable) fire)) {
+            if (CollisionHelper.collides(boss, (BoxCollidable) fire)) {
 
-                boolean dead = mageMonster.decreaseLife(10.f);
+                boolean dead = boss.decreaseLife(10.f);
                 // Sound.playEffect(jelly.soundId());
                 if (dead) {
-                    Player p=MainScene.get().GetPlayer();
-                    p.kill+=1;
-                    game.remove(mageMonster);
+                    game.remove(boss);
 
                 }
 

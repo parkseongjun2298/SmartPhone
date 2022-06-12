@@ -43,14 +43,14 @@ public class MonAtt extends Sprite implements BoxCollidable {
 
 
 
-
+   public float createtime=0.f;
     public void update(float frameTime) {
         MainScene game = MainScene.get();
-        float createtime=0.f;
-        createtime+=frameTime;
+
+        createtime+=1;
 
 
-        if (createtime>=0.01f) {
+        if (createtime>=5) {
 
             game.remove(this);
             //recycleBin.add(this);

@@ -16,6 +16,7 @@ public class MainScene extends Scene {
     private Player player;
     private WarrierMonster warrierMonster;
     private MageMonster mageMonster;
+    private Boss boss;
     private PlayerUi playerUi;
     private static MainScene singleton;
     public static MainScene get() {
@@ -57,10 +58,21 @@ public class MainScene extends Scene {
         add(Layer.monster.ordinal(), warrierMonster);
         add(Layer.controller.ordinal(), new CollisionChecker(warrierMonster));
 
-        mageMonster = new MageMonster(2000,500);
-        add(Layer.monster.ordinal(), mageMonster);
-        add(Layer.controller.ordinal(), new CollisionChecker2(mageMonster));
-        add(Layer.bg.ordinal(), new HorzScrollBackground(R.mipmap.cookie_run_bg_1, Metrics.size(R.dimen.bg_scroll_1)));
+
+//            mageMonster = new MageMonster(2000, 500);
+//            add(Layer.monster.ordinal(), mageMonster);
+//            add(Layer.controller.ordinal(), new CollisionChecker2(mageMonster));
+//
+//
+//
+//            boss = new Boss(1800, 750);
+//            add(Layer.monster.ordinal(), boss);
+//            add(Layer.controller.ordinal(), new CollisionChecker3(boss));
+
+
+
+
+        add(Layer.bg.ordinal(), new HorzScrollBackground(R.mipmap.map02, Metrics.size(R.dimen.bg_scroll_1)));
 
 
         int mipmapResId = R.mipmap.playerui;

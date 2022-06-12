@@ -1,47 +1,40 @@
-
 package net.scgyong.and.cookierun.game;
 
-        import android.content.res.AssetManager;
-        import android.graphics.Bitmap;
-        import android.graphics.BitmapFactory;
-        import android.graphics.Rect;
-        import android.graphics.RectF;
-        import android.util.JsonReader;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.util.JsonReader;
 
-        import net.scgyong.and.cookierun.R;
-        import net.scgyong.and.cookierun.framework.interfaces.BoxCollidable;
-        import net.scgyong.and.cookierun.framework.interfaces.GameObject;
-        import net.scgyong.and.cookierun.framework.objects.SheetSprite;
-        import net.scgyong.and.cookierun.framework.res.BitmapPool;
-        import net.scgyong.and.cookierun.framework.res.Metrics;
-        import net.scgyong.and.cookierun.framework.view.GameView;
+import net.scgyong.and.cookierun.R;
+import net.scgyong.and.cookierun.framework.interfaces.BoxCollidable;
+import net.scgyong.and.cookierun.framework.interfaces.GameObject;
+import net.scgyong.and.cookierun.framework.objects.SheetSprite;
+import net.scgyong.and.cookierun.framework.res.BitmapPool;
+import net.scgyong.and.cookierun.framework.res.Metrics;
+import net.scgyong.and.cookierun.framework.view.GameView;
 
-        import java.io.IOException;
-        import java.io.InputStream;
-        import java.io.InputStreamReader;
-        import java.util.ArrayList;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 
-public class MageMonster extends SheetSprite implements BoxCollidable {
+public class Boss extends SheetSprite implements BoxCollidable {
     protected float life, maxLife;
     private static final float FRAMES_PER_SECOND = 8f;
     private static final String TAG = Player.class.getSimpleName();
     private float dx;
     private float dy;
 
+    private float Mx;
+    private float My;
+
     public void changeBitmap() {
 //        int nextIndex = (cookieIndex + 1) % cookieInfos.size();
 //        selectCookie(nextIndex);
 //        setState(state);
     }
-    private float fx;
-    public void Set_posX(float fx){
-        this.fx=x-fx;
-        x= this.fx;
-        dstRect.offset( this.fx, 0);
-        collisionBox.offset( this.fx, 0);
-
-    }
-
 
     private enum State {
         run, idle,att,slide, COUNT;
@@ -95,7 +88,7 @@ public class MageMonster extends SheetSprite implements BoxCollidable {
     protected RectF collisionBox = new RectF();
 
 
-    public MageMonster(float x, float y) {
+    public Boss(float x, float y) {
         super(0, FRAMES_PER_SECOND);
         this.x = x;
         this.y = y;
@@ -105,7 +98,7 @@ public class MageMonster extends SheetSprite implements BoxCollidable {
         jumpPower = Metrics.size(R.dimen.player_jump_power);
         gravity = Metrics.size(R.dimen.player_gravity);
         setState(State.run);
-        maxLife = 100;
+        maxLife = 200;
         life = maxLife;
 
     }
@@ -116,14 +109,14 @@ public class MageMonster extends SheetSprite implements BoxCollidable {
         State.initRects(info);
         AssetManager assets = GameView.view.getContext().getAssets();
         try {
-            String filename = "monster2/" + info.id + "_sheet.png";
+            String filename = "boss/" + info.id + "_sheet.png";
             InputStream is = assets.open(filename);
             bitmap = BitmapFactory.decodeStream(is);
         } catch (IOException e) {
             e.printStackTrace();
         }
         float bottom = dstRect.bottom;
-        float size = MainScene.get().size(info.size * 3.85f / 270);
+        float size = MainScene.get().size(info.size * 3.85f / 200);
         dstRect.set(x - size / 2, bottom - size, x + size / 2, bottom);
     }
 
@@ -140,7 +133,7 @@ public class MageMonster extends SheetSprite implements BoxCollidable {
         cookieInfos = new ArrayList<>();
         AssetManager assets = GameView.view.getContext().getAssets();
         try {
-            InputStream is = assets.open("monster2.json");
+            InputStream is = assets.open("boss.json");
             JsonReader reader = new JsonReader(new InputStreamReader(is, "UTF-8"));
             reader.beginArray();
             while (reader.hasNext()) {
@@ -176,55 +169,35 @@ public class MageMonster extends SheetSprite implements BoxCollidable {
         return collisionBox;
     }
 
-    public float count=0;
-    boolean attcheck=false;
-    boolean first=false;
 
+    public float count=0;
+    boolean skill1=false;
+    boolean skill2=false;
+    boolean skill3=false;
     @Override
     public void update(float frameTime) {
-        Player p=MainScene.get().GetPlayer();
-        double dX = x - p.Get_Player_PosX(); // x좌표의 변화량
-        double dY = y - p.Get_Player_PosY(); // y좌표의 변화량
-        double distance=Math.sqrt(dX*dX+dY*dY);
-
-//        if(p.kill==2 && !first)
-//        {
-//            Set_posX(1700);
-//            first=true;
-//        }
 
 
-        if(attcheck)
-        {
             count++;
-            if(count>=40)
-            {
-                attcheck=false;
-                count=0;
+            if(count>=400 && !skill1) {
+                att();
+                skill1=true;
             }
+
+        if(count>=800&& !skill2) {
+            att2();
+            skill2=true;
         }
-        if(distance<1500.f&& !attcheck) {
-            //추격하는알고
-            att();
-            attcheck=true;
+        if(count>=1200&& !skill3) {
+            att3();
+            skill3=true;
         }
 
 
 
-//            float fy2=-this.y*frameTime;
-//            y+=fy2;
-//            dstRect.offset(0, fy2);
-//            collisionBox.offset(0, fy2);
 
 
 
-
-    }
-    public void att() {
-
-        float power = 5 ;
-        Arrow bullet = new Arrow(x-100,y-250,power);
-        MainScene.get().add(MainScene.Layer.monatt.ordinal(),bullet);
 
     }
 
@@ -258,8 +231,78 @@ public class MageMonster extends SheetSprite implements BoxCollidable {
         return nearest;
     }
 
+    public void att() {
 
+        float power = 5 ;
+        for(int i=0;i<4;++i) {
+            Shadow bullet = new Shadow(0+600*i, 1000, power);
+            MainScene.get().add(MainScene.Layer.monatt.ordinal(), bullet);
+        }
+    }
+    public void att2() {
 
+        float power = 5 ;
+        for(int j=0;j<4;++j) {
+            for (int i = 0; i < 4; ++i) {
+                BossSkill2 bullet = new BossSkill2(300 + 600 * i, 1000-j*200, power);
+                MainScene.get().add(MainScene.Layer.monatt.ordinal(), bullet);
+            }
+        }
+    }
+    public void att3() {
+
+        float power = 5 ;
+        for(int i=0;i<4;++i) {
+            Shadow bullet = new Shadow(0+600*i, 1000, power);
+            MainScene.get().add(MainScene.Layer.monatt.ordinal(), bullet);
+        }
+
+        skill1=false;
+        skill2=false;
+        skill3=false;
+        count=0.f;
+
+    }
+
+    public void left(float frameTime) {
+
+        dx=-this.x*frameTime*10;
+
+        dstRect.offset(dx, 0);
+        collisionBox.offset(dx, 0);
+    }
+    public void right(float frameTime) {
+
+        dx=this.x*frameTime*10;
+
+        dstRect.offset(dx, 0);
+        collisionBox.offset(dx, 0);
+    }
+    public void up(float frameTime) {
+
+        dy=-this.y*frameTime*5;
+
+        dstRect.offset(0, dy);
+        collisionBox.offset(0, dy);
+    }
+    public void down(float frameTime) {
+
+        dy=this.y*frameTime*5;
+
+        dstRect.offset(0, dy);
+        collisionBox.offset(0, dy);
+    }
+
+    public void slide(boolean startsSlide) {
+        if (state == State.run && startsSlide) {
+            setState(State.slide);
+            return;
+        }
+        if (state == State.slide && !startsSlide) {
+            setState(State.run);
+            return;
+        }
+    }
 
     public boolean decreaseLife(float power) {
         life -= power;

@@ -47,7 +47,7 @@ public class Fire extends Sprite implements BoxCollidable{
         MainScene game = MainScene.get();
         float dx = this.x * frameTime;
 
-        dx+=500*frameTime;
+        dx+=50;
         if (x > Metrics.width || x<0) {
 
             game.remove(this);

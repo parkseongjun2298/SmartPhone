@@ -87,7 +87,7 @@ public class Player extends SheetSprite implements BoxCollidable {
     private float jumpSpeed;
     protected RectF collisionBox = new RectF();
 
-
+    public float kill=0;
     public Player(float x, float y) {
         super(0, FRAMES_PER_SECOND);
         this.x = x;
@@ -177,17 +177,34 @@ public class Player extends SheetSprite implements BoxCollidable {
         return collisionBox;
     }
 
-
+    private  MageMonster mageMonster;
+    private  Boss boss;
     public boolean isCheck = false;
     public boolean isCheck2 = false;
+    boolean moncreatecheck=false;
+    boolean moncreatecheck2=false;
     @Override
     public void update(float frameTime) {
         float foot = collisionBox.bottom;
         MainScene game = MainScene.get();
 
-        if(x>400.f) {
-            game.SetStage();
+        if(this.kill==1&& !moncreatecheck) {
+
+            mageMonster = new MageMonster(2000, 500);
+            game.add(MainScene.Layer.monster.ordinal(), mageMonster);
+            game.add(MainScene.Layer.controller.ordinal(), new CollisionChecker2(mageMonster));
+            moncreatecheck=true;
         }
+        if(this.kill==2 && !moncreatecheck2) {
+
+            boss = new Boss(2000, 500);
+            game.add(MainScene.Layer.monster.ordinal(), boss);
+            game.add(MainScene.Layer.controller.ordinal(), new CollisionChecker3(boss));
+            moncreatecheck2=true;
+        }
+
+
+
 
         switch (state) {
 
@@ -232,6 +249,7 @@ public class Player extends SheetSprite implements BoxCollidable {
     private Platform findNearestPlatform(float foot) {
         Platform nearest = null;
         MainScene game = MainScene.get();
+
         ArrayList<GameObject> platforms = game.objectsAt(MainScene.Layer.platform.ordinal());
         float top = Metrics.height;
         for (GameObject obj: platforms) {

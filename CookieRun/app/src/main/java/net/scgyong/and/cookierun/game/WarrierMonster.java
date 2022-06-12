@@ -14,6 +14,7 @@ import android.content.res.AssetManager;
         import net.scgyong.and.cookierun.framework.res.BitmapPool;
         import net.scgyong.and.cookierun.framework.res.Metrics;
         import net.scgyong.and.cookierun.framework.view.GameView;
+        import net.scgyong.and.cookierun.framework.util.Gauge;
 
         import java.io.IOException;
         import java.io.InputStream;
@@ -27,12 +28,22 @@ public class WarrierMonster extends SheetSprite implements BoxCollidable {
     private float dx;
     private float dy;
 
+    private float Mx;
+    private float My;
+
     public void changeBitmap() {
 //        int nextIndex = (cookieIndex + 1) % cookieInfos.size();
 //        selectCookie(nextIndex);
 //        setState(state);
     }
+    private float fx;
+    public void Set_posX(float fx){
+        this.fx=x-fx;
+        x= this.fx;
+        dstRect.offset( this.fx, 0);
+        collisionBox.offset( this.fx, 0);
 
+    }
     private enum State {
         run, idle,att,slide, COUNT;
         Rect[] srcRects() {
@@ -84,7 +95,7 @@ public class WarrierMonster extends SheetSprite implements BoxCollidable {
     private float jumpSpeed;
     protected RectF collisionBox = new RectF();
 
-
+    private Gauge gauge;
     public WarrierMonster(float x, float y) {
         super(0, FRAMES_PER_SECOND);
         this.x = x;
@@ -97,6 +108,13 @@ public class WarrierMonster extends SheetSprite implements BoxCollidable {
         setState(State.run);
         maxLife = 100;
         life = maxLife;
+
+
+//        gauge = new Gauge(
+//                Metrics.size(R.dimen.map_gauge_y),
+//                R.color.black,
+//                Metrics.size(R.dimen.map_gauge_y),
+//                R.color.white,
 
     }
 
@@ -167,7 +185,9 @@ public class WarrierMonster extends SheetSprite implements BoxCollidable {
     }
 
 
-
+    public float count=0;
+    boolean attcheck=false;
+    boolean first=false;
     @Override
     public void update(float frameTime) {
         Player p=MainScene.get().GetPlayer();
@@ -175,15 +195,31 @@ public class WarrierMonster extends SheetSprite implements BoxCollidable {
         double dY = y - p.Get_Player_PosY(); // y좌표의 변화량
         double distance=Math.sqrt(dX*dX+dY*dY);
 
-        x-=1.f*frameTime;
-
-        if(distance<700.f) {
-        //추격하는알고
-
-
-            att();
-
+//        if(p.kill==1 && !first)
+//        {
+//            Set_posX(1700);
+//            first=true;
+//        }
+        if(attcheck)
+        {
+            count++;
+            if(count>=40)
+            {
+                attcheck=false;
+                count=0;
+            }
         }
+        if(distance<700.f&& !attcheck) {
+            //추격하는알고
+            att();
+            attcheck=true;
+        }
+
+
+
+
+
+
     }
 
     private float findNearestPlatformTop(float foot) {
@@ -219,7 +255,7 @@ public class WarrierMonster extends SheetSprite implements BoxCollidable {
     public void att() {
 
         float power = 5 ;
-        MonAtt bullet = new MonAtt(x-50,y-250,power);
+        MonAtt bullet = new MonAtt(x-30,y-250,power);
         MainScene.get().add(MainScene.Layer.monatt.ordinal(),bullet);
 
     }
